@@ -3,7 +3,7 @@ This repo focuses on visualizing the data structures and algorithms
 
 ## Sorting Visualization 
 
-There are various types of sorting algorithms ad it is very difficult to understand their working without visualization.
+There are various types of sorting algorithms and it is very difficult to understand their working without visualization.
 Hence we decided to visualize these sorting algos in python with the help of matplotlib.animations
 
 Pro tip :- Time complexity can also be seen through these visualizations
