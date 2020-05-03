@@ -89,10 +89,71 @@ def merge(arr,lb,mid,ub):
         arr[lb+i] = val
         yield arr
 
+def heapify(arr,n,i):
+    largest = i
+    l = i*2+1
+    r = i*2+2
+    while(l<n and arr[l]>arr[largest]):
+        largest = l
+    while(r<n and arr[r]>arr[largest]):
+        largest = r
+    if(largest!=i):
+        swap(arr,i,largest)
+        yield arr
+        yield from heapify(arr,n,largest)
+
+def heap_sort(arr):
+    n = len(arr)
+    for i in range(n,-1,-1):
+        yield from heapify(arr,n,i)
+    for i in range(n-1,0,-1):
+        swap(arr,0,i)
+        yield  arr
+        yield from heapify(arr,i,0)
+
+def shell_sort(arr):
+    sublistcount = len(arr) // 2
+    while sublistcount > 0:
+      for start_position in range(sublistcount):
+        yield  from gap_InsertionSort(arr, start_position, sublistcount)
+      sublistcount = sublistcount // 2
+
+def gap_InsertionSort(nlist,start,gap):
+    for i in range(start+gap,len(nlist),gap):
+
+        current_value = nlist[i]
+        position = i
+
+        while position>=gap and nlist[position-gap]>current_value:
+            nlist[position]=nlist[position-gap]
+            position = position-gap
+            yield nlist
+
+        nlist[position]=current_value
+        yield nlist
+
+def count_sort(arr):
+    max_val = max(arr)
+    m = max_val + 1
+    count = [0] * m
+
+    for a in arr:
+        count[a] += 1
+        yield arr
+    i = 0
+    for a in range(m):
+        for c in range(count[a]):
+            arr[i] = a
+            i += 1
+            yield arr
+        yield  arr
+
+
+
 
 
 n = int(input("Enter the number of elements:"))
-al = int(input("Choose algorithm:  1.Bubble \n 2.Insertion \n 3.Quick \n 4.Selection \n 5.Merge Sort"))
+al = int(input("Choose algorithm:  1.Bubble \n 2.Insertion \n 3.Quick \n 4.Selection \n 5.Merge Sort \n 6.Heapify \n 7.Shell \n 8.Count sort"))
 array = [i + 1 for i in range(n)]
 random.shuffle(array)
 
@@ -111,6 +172,15 @@ elif(al==4):
 elif (al == 5):
     title = "Merge Sort"
     algo=merge_sort(array,0,n-1)
+elif (al == 6):
+    title = "Heap Sort"
+    algo = heap_sort(array)
+elif (al == 7):
+    title = "Shell Sort"
+    algo = shell_sort(array)
+elif (al == 8):
+    title = "Count Sort"
+    algo = count_sort(array)
 # Initialize fig
 fig, ax = plt.subplots()
 ax.set_title(title)
